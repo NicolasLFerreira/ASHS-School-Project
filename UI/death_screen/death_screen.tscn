@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/sample_screen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/buttons/quit_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/buttons/replay_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/death_screen/death_screen.gd" type="Script" id=4]
+
+[node name="death_screen" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+
+[node name="name" parent="menu/top_row" index="0"]
+margin_right = 265.0
+text = "you died :("
+
+[node name="replay_button" parent="menu/bottom_row/buttons" index="0" instance=ExtResource( 3 )]
+margin_right = 1040.0
+
+[node name="quit_button" parent="menu/bottom_row/buttons" index="1" instance=ExtResource( 2 )]
+margin_top = 49.0
+margin_right = 1040.0
+margin_bottom = 94.0
+[connection signal="pressed" from="menu/bottom_row/buttons/replay_button" to="." method="_on_replay_button_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons/quit_button" to="." method="_on_quit_button_pressed"]

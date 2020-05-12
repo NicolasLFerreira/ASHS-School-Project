@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="enemy_body" type="KinematicBody2D"]
+
+[node name="enemy_sprite" type="AnimatedSprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="turn_area" type="Area2D" parent="."]
+
+[node name="area_collision" type="CollisionShape2D" parent="turn_area"]

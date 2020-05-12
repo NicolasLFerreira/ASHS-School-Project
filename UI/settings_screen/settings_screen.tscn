@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://UI/sample_screen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/buttons/back_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/buttons/fullscreen_button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/settings_screen/settings_screen.gd" type="Script" id=4]
+
+[node name="settings_screen" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+
+[node name="name" parent="menu/top_row" index="0"]
+margin_right = 223.0
+text = "settings"
+
+[node name="fullscreen_button" parent="menu/bottom_row/buttons" index="0" instance=ExtResource( 3 )]
+margin_right = 1040.0
+
+[node name="back_button" parent="menu/bottom_row/buttons" index="1" instance=ExtResource( 2 )]
+margin_top = 49.0
+margin_right = 1040.0
+margin_bottom = 94.0
+[connection signal="pressed" from="menu/bottom_row/buttons/fullscreen_button" to="." method="_on_fullscreen_button_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons/back_button" to="." method="_on_back_button_pressed"]

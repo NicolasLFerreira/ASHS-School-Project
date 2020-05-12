@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://player/player_body/player_body.gd" type="Script" id=1]
+[ext_resource path="res://textures/player_texture/negrosius_black_4.png" type="Texture" id=2]
+[ext_resource path="res://textures/player_texture/negrosius_black_1.png" type="Texture" id=3]
+[ext_resource path="res://textures/player_texture/negrosius_black_2.png" type="Texture" id=4]
+[ext_resource path="res://textures/player_texture/negrosius_black_3.png" type="Texture" id=5]
+[ext_resource path="res://player/player_body/player_sprite.gd" type="Script" id=6]
+[ext_resource path="res://player/player_body/GUI.gd" type="Script" id=7]
+[ext_resource path="res://UI/font/main_font-48.tres" type="DynamicFont" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "running",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+[node name="player_body" type="KinematicBody2D"]
+scale = Vector2( 0.98, 0.98 )
+script = ExtResource( 1 )
+
+[node name="GUI" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+follow_viewport_scale = 0.0
+script = ExtResource( 7 )
+
+[node name="stamina" type="Label" parent="GUI"]
+margin_left = 22.9645
+margin_top = -34.4468
+margin_right = 62.9645
+margin_bottom = 9.55322
+rect_scale = Vector2( 0.05, 0.05 )
+custom_fonts/font = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="skill" type="Label" parent="GUI"]
+anchor_right = 0.014
+margin_left = 20.0
+margin_top = -27.0
+margin_right = 373.08
+margin_bottom = 123.0
+rect_scale = Vector2( 0.05, 0.05 )
+custom_fonts/font = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 0 )
+scale = Vector2( 0.25, 0.4 )
+shape = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -2.00139, 1.99523, 3.00123, 1.99523, 0.526469, 3.96017 )
+
+[node name="player_camera" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.1, 0.1 )
+smoothing_enabled = true
+drag_margin_left = 0.3
+drag_margin_top = 0.3
+drag_margin_right = 0.3
+drag_margin_bottom = 0.3
+
+[node name="sprite_" type="Node2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="player_sprite" type="AnimatedSprite" parent="sprite_"]
+frames = SubResource( 2 )
+animation = "running"
+
+[node name="stamina_regen" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="stamina_cost" type="Timer" parent="."]
+autostart = true
+
+[node name="reload" type="Timer" parent="."]
+process_mode = 0
+one_shot = true
+autostart = true
+
+[node name="death_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="death_area"]
+position = Vector2( 0.5, 0 )
+scale = Vector2( 0.45, 0.4 )
+shape = SubResource( 3 )
+[connection signal="timeout" from="stamina_regen" to="." method="_on_stamina_regen_timeout"]
+[connection signal="timeout" from="stamina_cost" to="." method="_on_stamina_cost_timeout"]
+[connection signal="timeout" from="reload" to="." method="_on_reload_timeout"]
+[connection signal="area_entered" from="death_area" to="." method="_on_death_area_area_entered"]
