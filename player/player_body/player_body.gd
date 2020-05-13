@@ -12,7 +12,7 @@ var jump_speed = -95;
 
 #Physics
 
-var gravity = 3;
+var gravity = 1.5;
 var vector = Vector2();
 
 var amount = 3;
@@ -29,6 +29,13 @@ var stamina_cost = 5;
 var stamina_regen = 4
 
 var regen = false;
+
+#Power/Skill
+
+var power = true;
+var power_vector = Vector2();
+
+var dash = 500;
 
 #Functions
 
@@ -52,17 +59,25 @@ func _physics_process(_delta):
 	
 	_getInput();
 	_godmode();
+	_power();
 	_skill();
 	_shoot();
 	
 	#Floor and movement
 	
 	vector = move_and_slide(vector, Vector2(0, -1));
+	power_vector = move_and_slide(power_vector, Vector2(0, -1));
+	
+	#Powervector
+	
+	power_vector.x = lerp(power_vector.x, 0, 0.2);
+	
 	
 	#Gravity
 	
 	if (!godmode and !is_on_floor()):
 		vector.y += gravity;
+		power_vector.y += gravity;
 	
 	#Friction
 	
@@ -75,7 +90,7 @@ func _physics_process(_delta):
 	
 	var die = false;
 	
-	if (vector.y > 450):
+	if (vector.y > 250):
 		die = true;
 	
 	if (is_on_floor()):
@@ -122,7 +137,7 @@ func _getInput():
 		#Slowdown
 	
 	if (Input.is_action_pressed("down")):
-		move_speed = 3;
+		move_speed = 1;
 		amount = 10;
 	else:
 		if (!shift):
@@ -216,6 +231,16 @@ func _skill():
 		bullet_instance.global_position = global_position;
 		bullet_instance.direction = 1;
 		bullet_instance.isHorizontal = false;
+	
+	if (Input.is_action_just_pressed("dash")):
+		power_vector.x += -dash if $sprite_/player_sprite.flip_h else dash;
+
+#######
+#Power#
+#######
+
+func _power():
+	pass
 
 #########
 #Godmode#
@@ -229,7 +254,7 @@ func _godmode():
 	
 	if (godmode):
 		if (Input.is_action_pressed("ui_up")):
-			vector.y = -90
+			vector.y = -90;
 		if (Input.is_action_pressed("ui_down")):
-			vector.y = 90
+			vector.y = 90;
 		vector.y = lerp(vector.y, 0, 0.25);

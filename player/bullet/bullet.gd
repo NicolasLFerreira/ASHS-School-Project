@@ -1,6 +1,6 @@
 extends Area2D
 
-export var speed = 200;
+export var speed = 300;
 var direction = 0;
 var durability = 2;
 var isHorizontal = true;
