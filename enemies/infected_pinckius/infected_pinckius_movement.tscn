@@ -11,17 +11,6 @@
 [ext_resource path="res://enemies/enemy_body.tscn" type="PackedScene" id=9]
 [ext_resource path="res://enemies/infected_pinckius/infected_pinckius_movement.gd" type="Script" id=10]
 
-
-
-
-
-
-
-
-
-
-
-
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 2 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 8 ) ],
@@ -40,7 +29,6 @@ script = ExtResource( 10 )
 [node name="enemy_sprite" parent="." index="0"]
 frames = SubResource( 1 )
 animation = "running"
-frame = 7
 playing = true
 flip_h = true
 

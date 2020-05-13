@@ -145,25 +145,6 @@ func _getInput():
 			amount = 3;
 	
 
-#######
-#Shoot#
-#######
-
-func _shoot():
-	
-	if ($reload.get_time_left() == 0):
-		if (Input.is_action_just_pressed("click1")):
-			
-			$reload.start();
-			
-			var bullet_instance = bullet.instance();
-		
-			add_child(bullet_instance);
-			
-			bullet_instance.global_position = global_position;
-			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
-			bullet_instance.isHorizontal = true;
-
 #########
 #Stamina#
 #########
@@ -202,16 +183,23 @@ func _on_stamina_cost_timeout():
 		move_speed = 15;
 
 #######
-#Death#
+#Shoot#
 #######
 
-func _on_death_area_area_entered(area):
+func _shoot():
 	
-	if (!godmode):
-		if (area.get_name() == "bullet"):
-			return
-		else:
-			get_tree().change_scene("res://UI/death_screen/death_screen.tscn");
+	if ($reload.get_time_left() == 0):
+		if (Input.is_action_just_pressed("click1")):
+			
+			$reload.start();
+			
+			var bullet_instance = bullet.instance();
+		
+			add_child(bullet_instance);
+			
+			bullet_instance.global_position = global_position;
+			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
+			bullet_instance.isHorizontal = true;
 
 #######
 #Skill#
