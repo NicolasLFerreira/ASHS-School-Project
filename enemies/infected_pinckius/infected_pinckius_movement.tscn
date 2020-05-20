@@ -29,6 +29,7 @@ script = ExtResource( 10 )
 [node name="enemy_sprite" parent="." index="0"]
 frames = SubResource( 1 )
 animation = "running"
+frame = 7
 playing = true
 flip_h = true
 

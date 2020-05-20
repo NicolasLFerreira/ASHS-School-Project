@@ -12,7 +12,7 @@ var jump_speed = -95;
 
 #Physics
 
-var gravity = 1.5;
+var gravity = 0.5;
 var vector = Vector2();
 
 var amount = 3;
@@ -20,6 +20,7 @@ var bouncing = -7;
 var plus = 1;
 
 var godmode = false;
+var god_speed = 150;
 
 #Stamina
 
@@ -242,7 +243,7 @@ func _godmode():
 	
 	if (godmode):
 		if (Input.is_action_pressed("ui_up")):
-			vector.y = -90;
+			vector.y = -god_speed;
 		if (Input.is_action_pressed("ui_down")):
-			vector.y = 90;
+			vector.y = god_speed;
 		vector.y = lerp(vector.y, 0, 0.25);
