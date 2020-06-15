@@ -12,7 +12,8 @@ var jump_speed = -95;
 
 #Physics
 
-var gravity = 0.5;
+var gravity = 3;
+var power_gravity = 2;
 var vector = Vector2();
 
 var amount = 3;
@@ -50,8 +51,6 @@ func _process(_delta):
 	
 	if (stamina > stamina_cap):
 		stamina = stamina_cap;
-	
-	#Function call
 
 
 func _physics_process(_delta):
@@ -73,12 +72,11 @@ func _physics_process(_delta):
 	
 	power_vector.x = lerp(power_vector.x, 0, 0.2);
 	
-	
 	#Gravity
 	
 	if (!godmode and !is_on_floor()):
 		vector.y += gravity;
-		power_vector.y += gravity;
+		power_vector.y = 0 ;
 	
 	#Friction
 	
@@ -199,7 +197,7 @@ func _shoot():
 			add_child(bullet_instance);
 			
 			bullet_instance.global_position = global_position;
-			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
+#			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
 			bullet_instance.isHorizontal = true;
 
 #######

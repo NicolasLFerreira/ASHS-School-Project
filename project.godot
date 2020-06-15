@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Survival 2"
-run/main_scene="res://map/map_00.tscn"
+run/main_scene="res://UI/title_screen/title_screen.tscn"
 config/icon="res://textures/player_texture/negrosius_black_1.png"
 
 [autoload]
