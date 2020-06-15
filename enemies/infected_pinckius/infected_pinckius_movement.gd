@@ -23,5 +23,5 @@ func _on_turn_area_body_entered(_body):
 	$enemy_sprite.flip_h = !$enemy_sprite.flip_h;
 	
 	if (_body.get_name() == ("player_body")):
-		if (_body.godmode == false):
+		if (_body.godmode == false and _body.immortal == false):
 			get_tree().change_scene("res://UI/death_screen/death_screen.tscn");

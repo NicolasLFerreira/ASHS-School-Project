@@ -96,14 +96,19 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
+[node name="immortal_time" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="death_area" type="Area2D" parent="."]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="death_area"]
+[node name="death_collision" type="CollisionShape2D" parent="death_area"]
 position = Vector2( 0.5, 0 )
 scale = Vector2( 0.45, 0.4 )
 shape = SubResource( 3 )
 [connection signal="timeout" from="stamina_regen" to="." method="_on_stamina_regen_timeout"]
 [connection signal="timeout" from="stamina_cost" to="." method="_on_stamina_cost_timeout"]
 [connection signal="timeout" from="reload" to="." method="_on_reload_timeout"]
-[connection signal="area_entered" from="death_area" to="." method="_on_death_area_area_entered"]
+[connection signal="timeout" from="immortal_time" to="." method="immortal_off"]
+[connection signal="area_entered" from="death_area" to="." method="area_entered"]

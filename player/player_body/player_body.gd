@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 #Bullet
 
+#const spray = preload;
+
 const bullet = preload("res://player/bullet/bullet.tscn");
 var shoot = false;
 
@@ -36,6 +38,8 @@ var regen = false;
 
 var power = true;
 var power_vector = Vector2();
+
+var immortal = false;
 
 var dash = 500;
 
@@ -84,18 +88,6 @@ func _physics_process(_delta):
 		vector.x = lerp(vector.x, 0, 0.25);
 	else:
 		vector.x = lerp(vector.x, 0, 0.04);
-	
-	#Fall damage
-	
-	var die = false;
-	
-	if (vector.y > 250):
-		die = true;
-	
-	if (is_on_floor()):
-		if (die):
-			get_tree().quit()
-	
 
 ################
 #Input Movement#
@@ -206,7 +198,7 @@ func _shoot():
 
 func _skill():
 	
-	#soapbomb
+	#Soapbomb
 	
 	if (Input.is_action_just_pressed("soapbomb")):
 		vector.y = jump_speed;
@@ -219,8 +211,26 @@ func _skill():
 		bullet_instance.direction = 1;
 		bullet_instance.isHorizontal = false;
 	
+	#Dash
+	
 	if (Input.is_action_just_pressed("dash")):
 		power_vector.x += -dash if $sprite_/player_sprite.flip_h else dash;
+	
+	#Ironskin
+	
+	if (Input.is_action_just_pressed("ironskin")):
+		immortal = true;
+		$immortal_time.start();
+	
+	#Spray
+	
+	if (Input.is_action_just_pressed("spray")):
+		
+
+#Secondary skill related functions
+
+func immortal_off():
+	immortal = false;
 
 #######
 #Power#
@@ -229,12 +239,16 @@ func _skill():
 func _power():
 	pass
 
+#######
+#Death#
+#######
+
 #########
 #Godmode#
 #########
 
 func _godmode():
-
+	
 	if (Input.is_action_just_pressed("godmode")):
 		godmode = !godmode;
 		vector.y = 0;
