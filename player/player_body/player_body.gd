@@ -16,7 +16,7 @@ var jump_speed = -95;
 
 var gravity = 3;
 var power_gravity = 2;
-var vector = Vector2();
+var vector = Vector2(0, 1);
 
 var amount = 3;
 var bouncing = -7;
@@ -50,6 +50,15 @@ var dash = 500;
 ##############
 
 func _process(_delta):
+	
+	if (Input.is_action_pressed("flip")):
+		$sprite_/player_sprite.flip_v = true;
+		gravity = -3;
+		jump_speed = 95;
+	if (Input.is_action_just_released("flip")):
+		$sprite_/player_sprite.flip_v = false;
+		gravity = 3;
+		jump_speed = -95;
 	
 	#Stamina fix
 	
@@ -112,7 +121,7 @@ func _getInput():
 	
 	#Jump
 	
-	if (is_on_floor()):
+	if (is_on_floor() or is_on_ceiling()):
 		if (jump):
 			vector.y = jump_speed;
 		
@@ -180,7 +189,7 @@ func _on_stamina_cost_timeout():
 func _shoot():
 	
 	if ($reload.get_time_left() == 0):
-		if (Input.is_action_just_pressed("click1")):
+		if (Input.is_action_pressed("shoot")):
 			
 			$reload.start();
 			
@@ -195,6 +204,8 @@ func _shoot():
 #######
 #Skill#
 #######
+
+var spray_toggle = true;
 
 func _skill():
 	
@@ -221,29 +232,43 @@ func _skill():
 	if (Input.is_action_just_pressed("ironskin")):
 		immortal = true;
 		$immortal_time.start();
+		
+		$sprite_/player_sprite.flip_v = true;
 	
 	#Spray
-	
-	var spray_instance = spray.instance();
-	var spray_toggle = false;
 	
 	if (Input.is_action_pressed("spray")):
 		
 		if (spray_toggle):
+			
+			print("Spray on");
+			
+			spray_toggle = false;
+			
+			var spray_instance = spray.instance();
+			
+			add_child(spray_instance);
+			
+			if (!Input.is_action_just_released("spray")):
+				spray_toggle = true;
+				remove_child(spray_instance);
+			
+			#Flip
+			 
 			if ($sprite_/player_sprite.flip_h):
 				spray_instance.flip = true;
-			else:
-				spray_instance.flip = false;
+				spray_instance.global_position = global_position + Vector2(-9, 0)
 				
-			add_child(spray_instance);
-	
-	if (!Input.is_action_pressed("spray")):
-		remove_child(spray_instance);
+			if (!$sprite_/player_sprite.flip_h):
+				spray_instance.flip = false;
+				spray_instance.global_position = global_position + Vector2(9, 0)
 
 #Secondary skill related functions
 
 func immortal_off():
 	immortal = false;
+	
+	$sprite_/player_sprite.flip_v = false;
 
 #######
 #Power#

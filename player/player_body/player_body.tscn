@@ -35,7 +35,7 @@ script = ExtResource( 6 )
 
 [node name="player_sprite" type="AnimatedSprite" parent="sprite_"]
 frames = SubResource( 1 )
-animation = "running"
+animation = "iron_running"
 
 [node name="GUI" type="CanvasLayer" parent="."]
 follow_viewport_enable = true

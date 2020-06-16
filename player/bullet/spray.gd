@@ -4,12 +4,14 @@ var flip = false;
 
 func _ready():
 	$spray_sprite.play();
+
+func _process(delta):
+	
+	#Flip sprite
 	
 	if (flip):
-			$spray_sprite.flip_h = true;
-	else:
+		$spray_sprite.flip_h = true;
+	if (!flip):
 		$spray_sprite.flip_h = false;
 	
-
-func _on_spray_time_timeout():
-	queue_free();
+	
