@@ -12,7 +12,7 @@ func _ready():
 
 func _process(delta):
 	if (isHorizontal):
-		position += get_local_mouse_position() / 10; #direction * speed * delta;
+		position.x += direction * speed * delta;
 	else:
 		position.y += direction * speed * delta;
 

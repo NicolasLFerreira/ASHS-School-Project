@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 #Bullet
 
-#const spray = preload;
+const spray = preload("res://player/bullet/spray.tscn");
 
 const bullet = preload("res://player/bullet/bullet.tscn");
 var shoot = false;
@@ -189,7 +189,7 @@ func _shoot():
 			add_child(bullet_instance);
 			
 			bullet_instance.global_position = global_position;
-#			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
+			bullet_instance.direction = -1 if $sprite_/player_sprite.flip_h else 1;
 			bullet_instance.isHorizontal = true;
 
 #######
@@ -224,8 +224,21 @@ func _skill():
 	
 	#Spray
 	
-	if (Input.is_action_just_pressed("spray")):
+	var spray_instance = spray.instance();
+	var spray_toggle = false;
+	
+	if (Input.is_action_pressed("spray")):
 		
+		if (spray_toggle):
+			if ($sprite_/player_sprite.flip_h):
+				spray_instance.flip = true;
+			else:
+				spray_instance.flip = false;
+				
+			add_child(spray_instance);
+	
+	if (!Input.is_action_pressed("spray")):
+		remove_child(spray_instance);
 
 #Secondary skill related functions
 
