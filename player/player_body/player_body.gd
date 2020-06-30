@@ -36,12 +36,22 @@ var regen = false;
 
 #Power/Skill
 
-var power = true;
+var power = 100;
+const power_cap = 100;
+const power_gen = 10;
+
 var power_vector = Vector2();
 
 var immortal = false;
+var power_regen = false;
 
 var dash = 500;
+
+#Spray
+
+var spray_amount = 3;
+const spray_cap = 3;
+const spray_gen = 1;
 
 #Functions
 
@@ -51,20 +61,24 @@ var dash = 500;
 
 func _process(_delta):
 	
-	if (Input.is_action_pressed("flip")):
-		$sprite_/player_sprite.flip_v = true;
-		gravity = -3;
-		jump_speed = 95;
-	if (Input.is_action_just_released("flip")):
-		$sprite_/player_sprite.flip_v = false;
-		gravity = 3;
-		jump_speed = -95;
+	#Power fix
+	
+	if (power >= power_cap):
+		power = power_cap;
+		power_regen = true;
+	
+	if (power == power_cap):
+		power_regen = true;
+		$power_gen.stop();
+	
+	if (power < power_cap and power_regen):
+		$power_gen.start();
+		power_regen = false;
 	
 	#Stamina fix
 	
 	if (stamina > stamina_cap):
 		stamina = stamina_cap;
-
 
 func _physics_process(_delta):
 	
@@ -72,9 +86,9 @@ func _physics_process(_delta):
 	
 	_getInput();
 	_godmode();
-	_power();
 	_skill();
 	_shoot();
+	_gui_content();
 	
 	#Floor and movement
 	
@@ -97,6 +111,12 @@ func _physics_process(_delta):
 		vector.x = lerp(vector.x, 0, 0.25);
 	else:
 		vector.x = lerp(vector.x, 0, 0.04);
+
+func _gui_content():
+	
+	$player_camera/GUI/items/power.text = "Power: " + str(power);
+	$player_camera/GUI/items/stamina.text = "Stamina: " + str(stamina);
+	
 
 ################
 #Input Movement#
@@ -202,66 +222,76 @@ func _shoot():
 			bullet_instance.isHorizontal = true;
 
 #######
+#Power#
+#######
+
+#######
 #Skill#
 #######
 
-var spray_toggle = true;
+func _on_power_gen_timeout():
+	
+	if (power < power_cap):
+		power += power_gen;
+
 
 func _skill():
 	
 	#Soapbomb
 	
 	if (Input.is_action_just_pressed("soapbomb")):
-		vector.y = jump_speed;
 		
-		var bullet_instance = bullet.instance();
-		
-		add_child(bullet_instance);
-		
-		bullet_instance.global_position = global_position;
-		bullet_instance.direction = 1;
-		bullet_instance.isHorizontal = false;
+		if (power >= 40):
+			
+			power -= 20;
+			
+			vector.y += jump_speed;
+			
+			var bullet_instance = bullet.instance();
+			
+			add_child(bullet_instance);
+			
+			bullet_instance.global_position = global_position;
+			if ($sprite_/player_sprite.flip_v):
+				bullet_instance.direction = -1;
+			else:
+				bullet_instance.direction = 1;
+			bullet_instance.isHorizontal = false;
 	
 	#Dash
 	
 	if (Input.is_action_just_pressed("dash")):
-		power_vector.x += -dash if $sprite_/player_sprite.flip_h else dash;
+		if (power >= 20):
+			power -= 20;
+			power_vector.x += -dash if $sprite_/player_sprite.flip_h else dash;
 	
 	#Ironskin
 	
 	if (Input.is_action_just_pressed("ironskin")):
-		immortal = true;
-		$immortal_time.start();
-		
-		$sprite_/player_sprite.flip_v = true;
+		if (power >= 80):
+			power -= 80;
+			immortal = true;
+			$immortal_time.start();
+			$sprite_/player_sprite.flip_v = true;
 	
 	#Spray
 	
+	var spray_instance = spray.instance();
+	
 	if (Input.is_action_pressed("spray")):
-		
-		if (spray_toggle):
-			
-			print("Spray on");
-			
-			spray_toggle = false;
-			
-			var spray_instance = spray.instance();
-			
+		if (power >= 10):
+			power -= 10;
 			add_child(spray_instance);
-			
-			if (!Input.is_action_just_released("spray")):
-				spray_toggle = true;
-				remove_child(spray_instance);
 			
 			#Flip
 			 
 			if ($sprite_/player_sprite.flip_h):
 				spray_instance.flip = true;
-				spray_instance.global_position = global_position + Vector2(-9, 0)
+				spray_instance.global_position = global_position + Vector2(-10, -2)
 				
 			if (!$sprite_/player_sprite.flip_h):
 				spray_instance.flip = false;
-				spray_instance.global_position = global_position + Vector2(9, 0)
+				spray_instance.global_position = global_position + Vector2(10, -2);
 
 #Secondary skill related functions
 
@@ -269,17 +299,6 @@ func immortal_off():
 	immortal = false;
 	
 	$sprite_/player_sprite.flip_v = false;
-
-#######
-#Power#
-#######
-
-func _power():
-	pass
-
-#######
-#Death#
-#######
 
 #########
 #Godmode#

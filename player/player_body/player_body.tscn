@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://player/player_body/player_body.gd" type="Script" id=1]
 [ext_resource path="res://textures/player_texture/negrosius_black_4.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://textures/player_texture/negrosius_black_2.png" type="Texture" id=4]
 [ext_resource path="res://textures/player_texture/negrosius_black_3.png" type="Texture" id=5]
 [ext_resource path="res://player/player_body/player_sprite.gd" type="Script" id=6]
-[ext_resource path="res://player/player_body/GUI.gd" type="Script" id=7]
 [ext_resource path="res://UI/font/main_font-48.tres" type="DynamicFont" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -35,35 +34,6 @@ script = ExtResource( 6 )
 
 [node name="player_sprite" type="AnimatedSprite" parent="sprite_"]
 frames = SubResource( 1 )
-animation = "iron_running"
-
-[node name="GUI" type="CanvasLayer" parent="."]
-follow_viewport_enable = true
-follow_viewport_scale = 0.0
-script = ExtResource( 7 )
-
-[node name="stamina" type="Label" parent="GUI"]
-margin_left = 22.9645
-margin_top = -34.4468
-margin_right = 62.9645
-margin_bottom = 9.55322
-rect_scale = Vector2( 0.05, 0.05 )
-custom_fonts/font = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="skill" type="Label" parent="GUI"]
-anchor_right = 0.014
-margin_left = 20.0
-margin_top = -27.0
-margin_right = 373.08
-margin_bottom = 123.0
-rect_scale = Vector2( 0.05, 0.05 )
-custom_fonts/font = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="player_collision" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, -1 )
@@ -76,12 +46,56 @@ polygon = PoolVector2Array( -2.00139, 1.99523, 3.00123, 1.99523, 0.527623, 3.895
 [node name="player_camera" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.1, 0.1 )
-smoothing_enabled = true
 smoothing_speed = 10.0
 drag_margin_left = 0.3
 drag_margin_top = 0.3
 drag_margin_right = 0.3
 drag_margin_bottom = 0.3
+
+[node name="GUI" type="Control" parent="player_camera"]
+margin_left = -63.6703
+margin_top = -35.0
+margin_right = 64.3297
+margin_bottom = 35.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="items" type="VBoxContainer" parent="player_camera/GUI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -21.5
+margin_right = 277.5
+margin_bottom = 92.0
+rect_scale = Vector2( 0.07, 0.07 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stamina" type="Label" parent="player_camera/GUI/items"]
+margin_right = 299.0
+margin_bottom = 44.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 8 )
+text = "Stamina: 100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="power" type="Label" parent="player_camera/GUI/items"]
+margin_top = 48.0
+margin_right = 247.0
+margin_bottom = 92.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 8 )
+text = "power: 100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="stamina_regen" type="Timer" parent="."]
 wait_time = 0.5
@@ -92,13 +106,15 @@ autostart = true
 
 [node name="reload" type="Timer" parent="."]
 process_mode = 0
-wait_time = 0.1
+wait_time = 1.5
 one_shot = true
 autostart = true
 
 [node name="immortal_time" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.25
 one_shot = true
+
+[node name="power_gen" type="Timer" parent="."]
 
 [node name="death_area" type="Area2D" parent="."]
 visible = false
@@ -111,4 +127,5 @@ shape = SubResource( 3 )
 [connection signal="timeout" from="stamina_cost" to="." method="_on_stamina_cost_timeout"]
 [connection signal="timeout" from="reload" to="." method="_on_reload_timeout"]
 [connection signal="timeout" from="immortal_time" to="." method="immortal_off"]
+[connection signal="timeout" from="power_gen" to="." method="_on_power_gen_timeout"]
 [connection signal="area_entered" from="death_area" to="." method="area_entered"]

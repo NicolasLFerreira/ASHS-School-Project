@@ -9,20 +9,6 @@ func _process(_delta):
 	var sneak = Input.is_action_pressed("down");
 	var sprint = Input.is_action_pressed("shift");
 	
-	#Frame
-#
-#	if (sneak):
-#		$player_sprite.set_frame(2);
-#	else:
-#		$player_sprite.set_frame(5);
-#
-#	if (sprint):
-#		$player_sprite.set_frame(10);
-#	else:
-#		$player_sprite.set_frame(5);
-#
-	#Sprite animation
-	
 	if (left):
 		$player_sprite.play("running");
 		$player_sprite.flip_h = true;

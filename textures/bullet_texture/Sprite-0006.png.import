@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/concept.png-252c9add8e8af82cd608de43e276fa84.stex"
+path="res://.import/Sprite-0006.png-c9ca3f661e792149545f3be0076637eb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/bullet_texture/concept.png"
-dest_files=[ "res://.import/concept.png-252c9add8e8af82cd608de43e276fa84.stex" ]
+source_file="res://textures/bullet_texture/Sprite-0006.png"
+dest_files=[ "res://.import/Sprite-0006.png-c9ca3f661e792149545f3be0076637eb.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -30,5 +30,5 @@ process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0
