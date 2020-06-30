@@ -46,3 +46,4 @@ margin_bottom = 278.0
 [connection signal="pressed" from="menu/bottom_row/buttons/level_1" to="." method="_on_level_1_pressed"]
 [connection signal="pressed" from="menu/bottom_row/buttons/level_2" to="." method="_on_level_2_pressed"]
 [connection signal="pressed" from="menu/bottom_row/buttons/level_3" to="." method="_on_level_3_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons2/tutorial" to="." method="_on_tutorial_pressed"]

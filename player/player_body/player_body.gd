@@ -33,6 +33,7 @@ var stamina_cost = 5;
 var stamina_regen = 4
 
 var regen = false;
+var stamina_toggle = true;
 
 #Power/Skill
 
@@ -76,6 +77,12 @@ func _process(_delta):
 		power_regen = false;
 	
 	#Stamina fix
+	
+	if (stamina == 0):
+		stamina_toggle = false;
+	
+	if (stamina == stamina_cap):
+		stamina_toggle = true;
 	
 	if (stamina > stamina_cap):
 		stamina = stamina_cap;
@@ -180,7 +187,7 @@ func _on_stamina_regen_timeout():
 	#Regen
 	
 	if (stamina < stamina_cap):
-		if !(shift and (right or left)):
+		if ((!shift and (!right or !left)) or !(stamina_toggle)):
 			stamina += stamina_regen;
 
 func _on_stamina_cost_timeout():
@@ -193,14 +200,15 @@ func _on_stamina_cost_timeout():
 	
 	#Cost
 	
-	if (stamina >= stamina_cost and shift):
-		
-		move_speed = 25;
-		
-		if (left) or (right):
-			stamina -= stamina_cost;
-	else:
-		move_speed = 15;
+	if (stamina_toggle):
+		if (stamina >= 0 and shift):
+			
+			move_speed = 25;
+			
+			if (left) or (right):
+				stamina -= stamina_cost;
+		else:
+			move_speed = 15;
 
 #######
 #Shoot#
@@ -222,10 +230,6 @@ func _shoot():
 			bullet_instance.isHorizontal = true;
 
 #######
-#Power#
-#######
-
-#######
 #Skill#
 #######
 
@@ -233,7 +237,6 @@ func _on_power_gen_timeout():
 	
 	if (power < power_cap):
 		power += power_gen;
-
 
 func _skill():
 	
@@ -261,8 +264,8 @@ func _skill():
 	#Dash
 	
 	if (Input.is_action_just_pressed("dash")):
-		if (power >= 20):
-			power -= 20;
+		if (power >= 30):
+			power -= 30;
 			power_vector.x += -dash if $sprite_/player_sprite.flip_h else dash;
 	
 	#Ironskin

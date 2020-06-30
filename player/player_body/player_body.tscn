@@ -98,10 +98,11 @@ __meta__ = {
 }
 
 [node name="stamina_regen" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.2
 autostart = true
 
 [node name="stamina_cost" type="Timer" parent="."]
+wait_time = 0.15
 autostart = true
 
 [node name="reload" type="Timer" parent="."]
