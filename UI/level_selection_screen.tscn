@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/sample_screen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/buttons/level_.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/level_selection_screen.gd" type="Script" id=3]
+
+[node name="level_selection_screen" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="name" parent="menu/top_row" index="0"]
+margin_right = 417.0
+text = "level selection"
+
+[node name="buttons" parent="menu/bottom_row" index="0"]
+margin_right = 811.0
+
+[node name="level_1" parent="menu/bottom_row/buttons" index="0" instance=ExtResource( 2 )]
+margin_right = 811.0
+
+[node name="level_2" parent="menu/bottom_row/buttons" index="1" instance=ExtResource( 2 )]
+margin_top = 49.0
+margin_right = 811.0
+margin_bottom = 94.0
+
+[node name="level_3" parent="menu/bottom_row/buttons" index="2" instance=ExtResource( 2 )]
+margin_top = 98.0
+margin_right = 811.0
+margin_bottom = 143.0
+
+[node name="level_4" parent="menu/bottom_row/buttons" index="3" instance=ExtResource( 2 )]
+margin_top = 147.0
+margin_right = 811.0
+margin_bottom = 192.0
+
+[node name="level_5" parent="menu/bottom_row/buttons" index="4" instance=ExtResource( 2 )]
+margin_top = 196.0
+margin_right = 811.0
+margin_bottom = 241.0
+
+[node name="buttons2" type="VBoxContainer" parent="menu/bottom_row" index="1"]
+margin_left = 815.0
+margin_right = 1040.0
+margin_bottom = 278.0
+
+[node name="tutorial" parent="menu/bottom_row/buttons2" index="0" instance=ExtResource( 2 )]
+[connection signal="pressed" from="menu/bottom_row/buttons/level_1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons/level_2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons/level_3" to="." method="_on_level_3_pressed"]

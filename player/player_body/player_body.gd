@@ -279,8 +279,8 @@ func _skill():
 	var spray_instance = spray.instance();
 	
 	if (Input.is_action_pressed("spray")):
-		if (power >= 10):
-			power -= 10;
+		if (power >= 25):
+			power -= 25;
 			add_child(spray_instance);
 			
 			#Flip

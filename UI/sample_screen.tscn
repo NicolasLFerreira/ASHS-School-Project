@@ -30,10 +30,10 @@ size_flags_vertical = 3
 
 [node name="name" type="Label" parent="menu/top_row"]
 margin_top = 117.0
-margin_right = 323.0
+margin_right = 179.0
 margin_bottom = 161.0
 custom_fonts/font = ExtResource( 1 )
-text = "sample text "
+text = "sample"
 
 [node name="bottom_row" type="HBoxContainer" parent="menu"]
 margin_top = 282.0

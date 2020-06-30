@@ -32,5 +32,6 @@ margin_top = 147.0
 margin_right = 1040.0
 margin_bottom = 192.0
 [connection signal="pressed" from="menu/bottom_row/buttons/play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="menu/bottom_row/buttons/select_level_button" to="." method="_on_select_level_button_pressed"]
 [connection signal="pressed" from="menu/bottom_row/buttons/settings_button" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="menu/bottom_row/buttons/quit_button" to="." method="_on_quit_button_pressed"]

@@ -12,7 +12,7 @@ __meta__ = {
 }
 
 [node name="button_text" type="Label" parent="."]
-margin_right = 277.0
+margin_right = 225.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 225, 45 )
 custom_fonts/font = ExtResource( 1 )
@@ -20,7 +20,6 @@ custom_colors/font_color = Color( 0.403922, 0.403922, 0.403922, 1 )
 custom_colors/font_color_shadow = Color( 0.384314, 0.176471, 0.176471, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/shadow_offset_y = 4
-text = "new button"
 __meta__ = {
 "_edit_use_anchors_": false
 }
