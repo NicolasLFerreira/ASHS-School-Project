@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/sample_screen.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/buttons/back_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/buttons/return.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/buttons/fullscreen_button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://UI/settings_screen/settings_screen.gd" type="Script" id=4]
 

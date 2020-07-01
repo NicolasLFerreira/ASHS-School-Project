@@ -30,7 +30,7 @@ var god_speed = 150;
 var stamina_cap = 100;
 var stamina = stamina_cap;
 var stamina_cost = 5;
-var stamina_regen = 4
+var stamina_regen = 5;
 
 var regen = false;
 var stamina_toggle = true;
@@ -46,7 +46,7 @@ var power_vector = Vector2();
 var immortal = false;
 var power_regen = false;
 
-var dash = 500;
+var dash = 700;
 
 #Spray
 
@@ -61,6 +61,9 @@ const spray_gen = 1;
 ##############
 
 func _process(_delta):
+	
+	if (Input.is_action_just_pressed("back")):
+		get_tree().change_scene("res://UI/title_screen/title_screen.tscn");
 	
 	#Power fix
 	
@@ -121,9 +124,12 @@ func _physics_process(_delta):
 
 func _gui_content():
 	
-	$player_camera/GUI/items/power.text = "Power: " + str(power);
-	$player_camera/GUI/items/stamina.text = "Stamina: " + str(stamina);
-	
+	$GUI/items/power.text = "power: " + str(power);
+	$GUI/items/stamina.text = "stamina: " + str(stamina);
+	if ($reload.get_time_left() != 0):
+		$GUI/items/bullet.text = "bullet: " + str(int($reload.get_time_left()) + 1);
+	else:
+		$GUI/items/bullet.text = "ready";
 
 ################
 #Input Movement#
@@ -185,9 +191,8 @@ func _on_stamina_regen_timeout():
 	var right = Input.is_action_pressed("right");
 	
 	#Regen
-	
-	if (stamina < stamina_cap):
-		if ((!shift and (!right or !left)) or !(stamina_toggle)):
+	if ((!shift and (!right or !left)) or !(stamina_toggle)):
+		if (stamina < stamina_cap):
 			stamina += stamina_regen;
 
 func _on_stamina_cost_timeout():
@@ -200,8 +205,8 @@ func _on_stamina_cost_timeout():
 	
 	#Cost
 	
-	if (stamina_toggle):
-		if (stamina >= 0 and shift):
+	if (stamina >= 0 and shift):
+		if (stamina_toggle):
 			
 			move_speed = 25;
 			
@@ -244,11 +249,11 @@ func _skill():
 	
 	if (Input.is_action_just_pressed("soapbomb")):
 		
-		if (power >= 40):
+		if (power >= 30):
 			
-			power -= 20;
+			power -= 30;
 			
-			vector.y += jump_speed;
+			vector.y = jump_speed;
 			
 			var bullet_instance = bullet.instance();
 			
@@ -282,19 +287,17 @@ func _skill():
 	var spray_instance = spray.instance();
 	
 	if (Input.is_action_pressed("spray")):
-		if (power >= 25):
-			power -= 25;
-			add_child(spray_instance);
+		add_child(spray_instance);
+		
+		#Flip
+		 
+		if ($sprite_/player_sprite.flip_h):
+			spray_instance.flip = true;
+			spray_instance.global_position = global_position + Vector2(-10, -2)
 			
-			#Flip
-			 
-			if ($sprite_/player_sprite.flip_h):
-				spray_instance.flip = true;
-				spray_instance.global_position = global_position + Vector2(-10, -2)
-				
-			if (!$sprite_/player_sprite.flip_h):
-				spray_instance.flip = false;
-				spray_instance.global_position = global_position + Vector2(10, -2);
+		if (!$sprite_/player_sprite.flip_h):
+			spray_instance.flip = false;
+			spray_instance.global_position = global_position + Vector2(10, -2);
 
 #Secondary skill related functions
 
@@ -308,6 +311,7 @@ func immortal_off():
 #########
 
 func _godmode():
+	
 	
 	if (Input.is_action_just_pressed("godmode")):
 		godmode = !godmode;

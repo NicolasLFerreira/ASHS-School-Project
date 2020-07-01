@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var speed = 100;
+var speed = 150;
 var vector = Vector2();
 var gravity = 3;
 

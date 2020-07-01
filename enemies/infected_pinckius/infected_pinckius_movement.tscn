@@ -24,6 +24,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=3]
 
 [node name="corona_virus_enemy" instance=ExtResource( 9 )]
+scale = Vector2( 2, 2 )
 script = ExtResource( 10 )
 
 [node name="enemy_sprite" parent="." index="0"]
